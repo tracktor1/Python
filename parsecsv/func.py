@@ -10,7 +10,7 @@ def relative_path(file_name):
 #Validate IP address
 def validate_ip(ipaddr):
     try:
-        ip = ipaddress.ip_address(unicode(ipaddr)) #Validate IP address
+        ip = ipaddress.ip_address(ipaddr) #Validate IP address
         #print('%s is a correct IP%s address.' % (ip, ip.version))
         return ipaddr
     except ValueError:
