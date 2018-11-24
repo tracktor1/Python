@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+""" Please note: this script works with python 3 only """
+
 import csv
 from func import *
 
