@@ -15,5 +15,5 @@ def validate_ip(ipaddr):
         return ipaddr
     except ValueError:
         #print('address/netmask is invalid: %s' % ipaddr)
-        return "ip not valid"
+        return "Invalid IP"
         #raise Exception("Error")
