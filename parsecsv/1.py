@@ -3,6 +3,7 @@
 """ Please note: this script works with python 3 only """
 
 import csv
+import subprocess
 from func import *
 
 
@@ -20,10 +21,10 @@ with open(relative_path("data.csv")) as csv_file:
         upass = row[2]
         ip = validate_ip(row[3])
         print(company, user, upass, ip)
-        if ip != "Invalid IP":
-            print("run command with date from vars", ip)
+        if ip == "Invalid IP":
+            print("Invalid IP", row[3])
         else:
-            print("Please fix the ip in this line")
+            subprocess.call(["ping", "-c 1", ip])
             
         
         
