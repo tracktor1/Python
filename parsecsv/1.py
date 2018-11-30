@@ -31,11 +31,10 @@ with open(relative_path("data.csv")) as csv_file:
         if ip == "Invalid IP":
             print("Invalid IP", row[3])
         else:
-            #subprocess.call(["ping", "-c 1", ip])
             home = str(Path.home())
             backup_dir = home+"/backup/"+company+"/"+serial+"/"
             valdir = validate_dir(backup_dir)
             print(valdir)
             connection = user+"@"+ip+":fgt-config"
-            subprocess.call(["scp", connection, backupto])
-
+            subprocess.call(["scp", "-o StrictHostKeyChecking=no", connection, backup_dir])
+            # need to insert password automaticly to continue
