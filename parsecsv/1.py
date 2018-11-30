@@ -21,11 +21,13 @@ with open(relative_path("data.csv")) as csv_file:
         upass = row[2]
         ip = validate_ip(row[3])
         port = row[4]
-        print(company, user, upass, ip, port)
+        dtype = row[5]
+        serial = row[6]
+        print(company, user, upass, ip, port, dtype, serial)
         if ip == "Invalid IP":
             print("Invalid IP", row[3])
         else:
             #subprocess.call(["ping", "-c 1", ip])
             connection = user+"@"+ip
-            print(subprocess.call(["scp", connection, ip]))      
+            subprocess.call(["scp", connection, ip])
         

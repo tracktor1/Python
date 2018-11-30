@@ -1,4 +1,4 @@
-company,user,pass,ip,port
-IBM,ibm-user,123456,8.8.8.8,22
-HPE,hpe-user,123456789,8.8.4.4,22
-Dell,dell user,44444,192.168.2.257,22
+company,user,pass,ip,port,device type,serial
+IBM,ibm-user,123456,8.8.8.8,22,Fortigate,FGT55522
+HPE,hpe-user,123456789,8.8.4.4,22,Fortigate,FGT30E987
+Dell,dell user,44444,192.168.2.257,22,Fortigate,FGT100D487
