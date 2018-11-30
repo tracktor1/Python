@@ -1,11 +1,15 @@
 #!/usr/bin/env python
-
-""" Please note: this script works with python 3 only """
+"""
+   Please note: this script works with python 3 only
+   
+   All backup are saved in the user home dir under backup dir
+   /home/username/backup/
+"""
 
 import csv
 import subprocess
 from func import *
-
+from pathlib import Path
 
 print("Current path: " ,os.getcwd())
 print("Relative path: " ,relative_path("data.csv") ,"\n")
@@ -28,6 +32,10 @@ with open(relative_path("data.csv")) as csv_file:
             print("Invalid IP", row[3])
         else:
             #subprocess.call(["ping", "-c 1", ip])
-            connection = user+"@"+ip
-            subprocess.call(["scp", connection, ip])
-        
+            home = str(Path.home())
+            backup_dir = home+"/backup/"+company+"/"+serial+"/"
+            valdir = validate_dir(backup_dir)
+            print(valdir)
+            connection = user+"@"+ip+":fgt-config"
+            subprocess.call(["scp", connection, backupto])
+
