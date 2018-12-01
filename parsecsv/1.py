@@ -1,15 +1,17 @@
 #!/usr/bin/env python
 """
    Please note: this script works with python 3 only
-   
-   All backup are saved in the user home dir under backup dir
-   /home/username/backup/
+   All backup are saved in the user home dir under backup dir:
+       /home/username/backup/
 """
 
 import csv
 import subprocess
 from func import *
 from pathlib import Path
+from scp import SCPClient  # to work must install: sudo apt-get install python3-scp
+import paramiko            # to work must install: sudo apt-get install python3-paramiko
+
 
 print("Current path: " ,os.getcwd())
 print("Relative path: " ,relative_path("data.csv") ,"\n")
@@ -38,3 +40,6 @@ with open(relative_path("data.csv")) as csv_file:
             connection = user+"@"+ip+":fgt-config"
             subprocess.call(["scp", "-o StrictHostKeyChecking=no", connection, backup_dir])
             # need to insert password automaticly to continue
+            #scp_conn(ip, port, user, upass, "fgt-config", backup_dir)
+            #client = scp.Client(host=ip, user=user, password=upass)
+            #client.transfer('fgt-config', backup_dir)
