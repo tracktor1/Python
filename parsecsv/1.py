@@ -37,6 +37,7 @@ with open(relative_path("data.csv")) as csv_file:
             backup_dir = home+"/backup/"+company+"/"+serial+"/"
             valdir = validate_dir(backup_dir)
             print(valdir)
+            print(backup_dir)
             connection = user+"@"+ip+":fgt-config"
             subprocess.call(["scp", "-o StrictHostKeyChecking=no", connection, backup_dir])
             # need to insert password automaticly to continue
