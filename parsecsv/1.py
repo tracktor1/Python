@@ -7,6 +7,7 @@
 
 import csv
 import subprocess
+import pexpect             # to work must install: sudo apt-get install python3-pexpect
 from func import *
 from pathlib import Path
 from scp import SCPClient  # to work must install: sudo apt-get install python3-scp
@@ -39,8 +40,8 @@ with open(relative_path("data.csv")) as csv_file:
             print(valdir)
             print(backup_dir)
             connection = user+"@"+ip+":fgt-config"
-            subprocess.call(["scp", "-o StrictHostKeyChecking=no", connection, backup_dir])
-            # need to insert password automaticly to continue
-            #scp_conn(ip, port, user, upass, "fgt-config", backup_dir)
-            #client = scp.Client(host=ip, user=user, password=upass)
-            #client.transfer('fgt-config', backup_dir)
+            connect = pexpect.spawn('scp -o StrictHostKeyChecking=no %s %s' % (connection, backup_dir))
+            connect.expect("password:")
+            connect.sendline(upass)
+            connect.expect(pexpect.EOF, timeout=10)
+
