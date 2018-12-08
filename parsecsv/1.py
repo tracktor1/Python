@@ -10,8 +10,8 @@ import subprocess
 import pexpect             # to work must install: sudo apt-get install python3-pexpect
 from func import *
 from pathlib import Path
-from scp import SCPClient  # to work must install: sudo apt-get install python3-scp
-import paramiko            # to work must install: sudo apt-get install python3-paramiko
+#from scp import SCPClient  # to work must install: sudo apt-get install python3-scp
+#import paramiko            # to work must install: sudo apt-get install python3-paramiko
 
 
 print("Current path: " ,os.getcwd())
@@ -34,9 +34,11 @@ with open(relative_path("data.csv")) as csv_file:
         if ip == "Invalid IP":
             print("Invalid IP", row[3])
         else:
-            home = str(Path.home())
-            backup_dir = home+"/backup/"+company+"/"+serial+"/"
+            home_dir = str(Path.home())
+            backup_dir = home_dir+"/backup/"+company+"/"+serial+"/"
+            temp_dir = home_dir+"/backup/tmp"
             valdir = validate_dir(backup_dir)
+            valdir = validate_dir(temp_dir)
             print(valdir)
             print(backup_dir)
             connection = user+"@"+ip+":fgt-config"
