@@ -30,7 +30,13 @@ def validate_ip(ipaddr):
 ###Rename the backup file to date + device serial
 def move_file(file_src, dst, serial):
     cur_time = strftime("%Y-%m-%d-%H%M")
-    file_dst = dst+cur_time+"-"+serial+".conf" 
-    shutil.move(file_src, file_dst)
+    file_dst = dst+cur_time+"-"+serial+".conf"
+    if not os.path.exists(file_dst):
+        shutil.move(file_src, file_dst)
+    else:
+        print("File with the same name exist cannot create backup")
+        os.remove(file_src)
+        return "File Exist"
+
 
 
