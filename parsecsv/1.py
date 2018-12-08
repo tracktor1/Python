@@ -43,5 +43,9 @@ with open(relative_path("data.csv")) as csv_file:
             connect = pexpect.spawn('scp -o StrictHostKeyChecking=no %s %s' % (connection, temp_dir))
             connect.expect("password:")
             connect.sendline(upass)
-            connect.expect(pexpect.EOF, timeout=10)
+            connect.expect(pexpect.EOF, timeout=15)
+            src = temp_dir+"fgt-config"
+            move_file(src, backup_dir, serial)
+            
+            
 

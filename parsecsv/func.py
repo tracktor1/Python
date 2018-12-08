@@ -1,7 +1,8 @@
 import os
 import ipaddress
 import sys
-
+import shutil
+from time import gmtime, strftime
 
 ###Set the relative file location to the script location
 def relative_path(file_name):
@@ -26,6 +27,10 @@ def validate_ip(ipaddr):
         return ipaddr
     except ValueError:
         return "Invalid IP"
-
+###Rename the backup file to date + device serial
+def move_file(file_src, dst, serial):
+    cur_time = strftime("%Y-%m-%d-%H%M")
+    file_dst = dst+cur_time+"-"+serial+".conf" 
+    shutil.move(file_src, file_dst)
 
 
