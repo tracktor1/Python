@@ -36,13 +36,11 @@ with open(relative_path("data.csv")) as csv_file:
         else:
             home_dir = str(Path.home())
             backup_dir = home_dir+"/backup/"+company+"/"+serial+"/"
-            temp_dir = home_dir+"/backup/tmp"
+            temp_dir = home_dir+"/backup/tmp/"
             valdir = validate_dir(backup_dir)
             valdir = validate_dir(temp_dir)
-            print(valdir)
-            print(backup_dir)
             connection = user+"@"+ip+":fgt-config"
-            connect = pexpect.spawn('scp -o StrictHostKeyChecking=no %s %s' % (connection, backup_dir))
+            connect = pexpect.spawn('scp -o StrictHostKeyChecking=no %s %s' % (connection, temp_dir))
             connect.expect("password:")
             connect.sendline(upass)
             connect.expect(pexpect.EOF, timeout=10)

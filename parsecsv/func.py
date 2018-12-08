@@ -23,11 +23,9 @@ def validate_dir(dir_path):
 def validate_ip(ipaddr):
     try:
         ip = ipaddress.ip_address(ipaddr) #Validate IP address
-        #print('%s is a correct IP%s address.' % (ip, ip.version))
         return ipaddr
     except ValueError:
-        #print('address/netmask is invalid: %s' % ipaddr)
         return "Invalid IP"
-        #raise Exception("Error")
+
 
 
