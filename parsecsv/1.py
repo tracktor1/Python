@@ -17,8 +17,6 @@ from pathlib import Path
 print("Current path: " ,os.getcwd())
 print("Relative path: " ,relative_path("data.csv") ,"\n")
 
-
-
 with open(relative_path("data.csv")) as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     next(csv_reader) # Skip first line
