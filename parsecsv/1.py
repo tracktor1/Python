@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 """
    Please note: this script works with python 3 only
-   All backup are saved in the user home dir under backup dir:
-       /home/username/backup/
+   All backup are saved in the users home dir under backup dir:
+       /home/username/backup/device_serial
 """
 
 import csv
