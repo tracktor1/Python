@@ -46,12 +46,11 @@ with open(relative_path("data.csv")) as csv_file:
             connect = pexpect.spawn('scp -o StrictHostKeyChecking=no {} {}'.format(connection, temp_dir)) #format new way
             connect.expect("assword:")
             connect.sendline(upass)
-            i = connect.expect([pexpect.TIMEOUT, "denied", pexpect.EOF], timeout=15) # wait 15 sec for EOF
+            i = connect.expect([pexpect.TIMEOUT, "denied", pexpect.EOF], timeout=20) # wait 20 sec for EOF
             if i == 0:
                 print("error timed out")
             if i == 1:
-                Print("Error: Access denied")
-                move_file(src, backup_dir, serial)
+                print("Error: Access denied")
             if i == 2:
                 src = temp_dir+"fgt-config"
                 move_file(src, backup_dir, serial)
