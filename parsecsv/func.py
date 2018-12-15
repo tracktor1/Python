@@ -10,7 +10,7 @@ def relative_path(file_name):
     joint_path = os.path.join(script_path, file_name)
     return joint_path
 
-###Validate directory and create if not exist
+###Validate directory and create if not exists
 def validate_dir(dir_path):
     directory = os.path.dirname(dir_path)
     if not os.path.exists(directory):
@@ -19,6 +19,11 @@ def validate_dir(dir_path):
         return "Creating Dir"
     else:
         return "Dir Exist"
+
+###Check if file exists
+def validate_file(file_name):
+    file = os.path.isfile(file_name)
+    return file
 
 ###Validate IP address
 def validate_ip(ipaddr):
