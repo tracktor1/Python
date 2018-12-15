@@ -38,5 +38,9 @@ def move_file(file_src, dst, serial):
         os.remove(file_src)
         return "File Exist"
 
-
+"""Kill connection"""
+def kill_conn(connect, errstr):
+    print (errstr)
+    connect.terminate()
+    exit(1)
 
