@@ -41,16 +41,20 @@ with open(relative_path("data.csv")) as csv_file:
             valdir = validate_dir(temp_dir) #valdate if dir exist, if not create it
             print("Backup file will be saved in: ", backup_dir)
             connection = user+"@"+ip+":fgt-config"
-            #connect = pexpect.spawn('scp -o StrictHostKeyChecking=no %s %s' % (connection, temp_dir)) #old way
-            connect = pexpect.spawn('scp -o StrictHostKeyChecking=no {} {}'.format(connection, temp_dir)) #new way
+            print('scp -o StrictHostKeyChecking=no %s %s' % (connection, temp_dir))
+            #connect = pexpect.spawn('scp -o StrictHostKeyChecking=no %s %s' % (connection, temp_dir)) #format old way
+            connect = pexpect.spawn('scp -o StrictHostKeyChecking=no {} {}'.format(connection, temp_dir)) #format new way
             connect.expect("assword:")
             connect.sendline(upass)
-            i = connect.expect([pexpect.TIMEOUT, pexpect.EOF], timeout=15) # wait 15 sec for EOF
+            i = connect.expect([pexpect.TIMEOUT, "denied", pexpect.EOF], timeout=15) # wait 15 sec for EOF
             if i == 0:
                 print("error timed out")
             if i == 1:
+                Print("Error: Access denied")
+                move_file(src, backup_dir, serial)
+            if i == 2:
                 src = temp_dir+"fgt-config"
                 move_file(src, backup_dir, serial)
-            
+                print("Device {} backed up" .format(serial))
             
 
