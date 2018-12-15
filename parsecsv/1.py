@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 """
-   Please note: this script works with python 3 only
-   All backup are saved in the users home dir under backup dir:
-       /home/username/backup/device_serial
+    Please note: this script works with python 3 only
+    All backup are saved in the users home dir under backup dir:
+        /home/username/backup/device_serial
+    run it as:
+        python3 ./1.py
 """
 
 import csv
@@ -19,7 +21,7 @@ print("Relative path: " ,relative_path("data.csv") ,"\n")
 
 with open(relative_path("data.csv")) as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
-    next(csv_reader) # Skip first line
+    next(csv_reader) # Skips first line
     for row in csv_reader:
         company = row[0]
         user = row[1]
@@ -32,18 +34,23 @@ with open(relative_path("data.csv")) as csv_file:
         if ip == "Invalid IP":
             print("Invalid IP", row[3])
         else:
-            home_dir = str(Path.home())
-            backup_dir = home_dir+"/backup/"+company+"/"+serial+"/"
-            temp_dir = home_dir+"/backup/tmp/"
-            valdir = validate_dir(backup_dir)
-            valdir = validate_dir(temp_dir)
+            home_dir = str(Path.home()) #find user home dir
+            backup_dir = home_dir+"/backup/"+company+"/"+serial+"/" #location of saved backup files
+            temp_dir = home_dir+"/backup/tmp/" #temp working dir
+            valdir = validate_dir(backup_dir) #valdate dir exist, if not create it
+            valdir = validate_dir(temp_dir) #valdate dir exist, if not create it
+            print("Backup file will be saved in: ", backup_dir)
             connection = user+"@"+ip+":fgt-config"
-            connect = pexpect.spawn('scp -o StrictHostKeyChecking=no %s %s' % (connection, temp_dir))
-            connect.expect("password:")
+            #connect = pexpect.spawn('scp -o StrictHostKeyChecking=no %s %s' % (connection, temp_dir)) #old way
+            connect = pexpect.spawn('scp -o StrictHostKeyChecking=no {} {}'.format(connection, temp_dir)) #new way
+            connect.expect("assword:")
             connect.sendline(upass)
-            connect.expect(pexpect.EOF, timeout=15)
-            src = temp_dir+"fgt-config"
-            move_file(src, backup_dir, serial)
+            i = connect.expect([pexpect.TIMEOUT, pexpect.EOF], timeout=15) # wait 15 sec for EOF
+            if i == 0:
+                print("error timed out")
+            if i == 1:
+                src = temp_dir+"fgt-config"
+                move_file(src, backup_dir, serial)
             
             
 
