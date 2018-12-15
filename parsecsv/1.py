@@ -37,8 +37,8 @@ with open(relative_path("data.csv")) as csv_file:
             home_dir = str(Path.home()) #find user home dir
             backup_dir = home_dir+"/backup/"+company+"/"+serial+"/" #location of saved backup files
             temp_dir = home_dir+"/backup/tmp/" #temp working dir
-            valdir = validate_dir(backup_dir) #valdate dir exist, if not create it
-            valdir = validate_dir(temp_dir) #valdate dir exist, if not create it
+            valdir = validate_dir(backup_dir) #valdate if dir exist, if not create it
+            valdir = validate_dir(temp_dir) #valdate if dir exist, if not create it
             print("Backup file will be saved in: ", backup_dir)
             connection = user+"@"+ip+":fgt-config"
             #connect = pexpect.spawn('scp -o StrictHostKeyChecking=no %s %s' % (connection, temp_dir)) #old way
