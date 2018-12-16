@@ -9,6 +9,7 @@
 
 import csv
 import subprocess
+
 import pexpect             # to work must install: sudo apt-get install python3-pexpect
 from func import *
 from pathlib import Path
@@ -44,16 +45,23 @@ with open(relative_path("data.csv")) as csv_file:
             print('scp -o StrictHostKeyChecking=no %s %s' % (connection, temp_dir))
             #connect = pexpect.spawn('scp -o StrictHostKeyChecking=no %s %s' % (connection, temp_dir)) #format old way
             connect = pexpect.spawn('scp -o StrictHostKeyChecking=no {} {}'.format(connection, temp_dir)) #format new way
-            connect.expect("assword:")
-            connect.sendline(upass)
-            i = connect.expect([pexpect.TIMEOUT, "denied", pexpect.EOF], timeout=20) # wait 20 sec for EOF
-            if i == 0:
-                print("error timed out")
-            if i == 1:
-                print("Error: Access denied")
-            if i == 2:
-                src = temp_dir+"fgt-config"
-                move_file(src, backup_dir, serial)
-                print("Device {} backed up" .format(serial))
+            c = connect.expect([pexpect.TIMEOUT, "assword:"], timeout=20) # wait 20 sec for password
+            if c == 0:
+                print("Error: connection timed out")
+                connect.terminate()
+            if c == 1:
+                connect.sendline(upass)
+                i = connect.expect([pexpect.TIMEOUT, "denied", pexpect.EOF], timeout=20) # wait 20 sec for EOF error or timeout
+                if i == 0:
+                    print("Error: connection timed out")
+                    connect.terminate()
+                if i == 1:
+                    print("Error: Access denied")
+                    connect.terminate()
+                if i == 2:
+                    src = temp_dir+"fgt-config"
+                    move_file(src, backup_dir, serial)
+                    print("Device {} backed up" .format(serial))
+
             
 
