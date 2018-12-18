@@ -21,8 +21,8 @@ def validate_dir(dir_path):
         return "Dir Exist"
 
 ###Check if file exists
-def validate_file(file_name):
-    file = os.path.isfile(file_name)
+def validate_file(path_to_file):
+    file = os.path.isfile(path_to_file)
     return file
 
 ###Validate IP address
@@ -38,6 +38,7 @@ def move_file(file_src, dst, serial):
     file_dst = dst+cur_time+"-"+serial+".conf"
     if not os.path.exists(file_dst):
         shutil.move(file_src, file_dst)
+        return file_dst
     else:
         print("File with the same name exist cannot create backup")
         os.remove(file_src)
