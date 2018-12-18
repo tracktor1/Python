@@ -43,25 +43,26 @@ with open(relative_path("data.csv")) as csv_file:
             print("Backup file will be saved in: ", backup_dir)
             connection = user+"@"+ip+":fgt-config"
             print('scp -o StrictHostKeyChecking=no %s %s' % (connection, temp_dir))
-            #connect = pexpect.spawn('scp -o StrictHostKeyChecking=no %s %s' % (connection, temp_dir)) #format old way
-            connect = pexpect.spawn('scp -o StrictHostKeyChecking=no {} {}'.format(connection, temp_dir)) #format new way
-            c = connect.expect([pexpect.TIMEOUT, "assword:"], timeout=20) # wait 20 sec for password
+            #child = pexpect.spawn('scp -o StrictHostKeyChecking=no %s %s' % (connection, temp_dir)) #format old way
+            child = pexpect.spawn('scp -o StrictHostKeyChecking=no {} {}'.format(connection, temp_dir)) #format new way
+            c = child.expect([pexpect.TIMEOUT, "assword:"], timeout=5) # wait 5 sec for password
             if c == 0:
                 print("Error: connection timed out")
-                connect.terminate()
+                child.terminate()
             if c == 1:
-                connect.sendline(upass)
-                i = connect.expect([pexpect.TIMEOUT, "denied", pexpect.EOF], timeout=20) # wait 20 sec for EOF error or timeout
+                child.sendline(upass)
+                i = child.expect([pexpect.TIMEOUT, "denied", pexpect.EOF], timeout=20) # wait 20 sec for EOF error or timeout
                 if i == 0:
-                    print("Error: connection timed out")
-                    connect.terminate()
+                    print("Error: Connection timed out please check if the device is up")
+                    child.terminate()
                 if i == 1:
-                    print("Error: Access denied")
-                    connect.terminate()
+                    print("Error: Access deniedplease check your password")
+                    child.terminate()
                 if i == 2:
                     src = temp_dir+"fgt-config"
-                    move_file(src, backup_dir, serial)
-                    print("Device {} backed up" .format(serial))
+                    fm = move_file(src, backup_dir, serial)
+                    print("Device {} backed up to:" .format(serial))
+                    print (fm)
 
             
 
