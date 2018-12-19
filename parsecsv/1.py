@@ -9,7 +9,6 @@
 
 import csv
 import subprocess
-
 import pexpect             # to work must install: sudo apt-get install python3-pexpect
 from func import *
 from pathlib import Path
@@ -34,6 +33,9 @@ with open(relative_path("data.csv")) as csv_file:
         print(company, user, upass, ip, port, dtype, serial)
         if ip == "Invalid IP":
             print("Invalid IP", row[3])
+            print("{} will not be backed up" .format(serial))
+        #if port is None:  """Need to fix port validation"""
+        #   port = 22
         else:
             home_dir = str(Path.home()) #find user home dir
             backup_dir = home_dir+"/backup/"+company+"/"+serial+"/" #location of saved backup files
@@ -42,12 +44,12 @@ with open(relative_path("data.csv")) as csv_file:
             valdir = validate_dir(temp_dir) #valdate if dir exist, if not create it
             print("Backup file will be saved in: ", backup_dir)
             connection = user+"@"+ip+":fgt-config"
-            print('scp -o StrictHostKeyChecking=no %s %s' % (connection, temp_dir))
-            #child = pexpect.spawn('scp -o StrictHostKeyChecking=no %s %s' % (connection, temp_dir)) #format old way
-            child = pexpect.spawn('scp -o StrictHostKeyChecking=no {} {}'.format(connection, temp_dir)) #format new way
+            print('scp -o StrictHostKeyChecking=no -P %s %s %s' % (port, connection, temp_dir))
+            #child = pexpect.spawn('scp -o StrictHostKeyChecking=no -P %s %s %s' % (port, connection, temp_dir)) #format old way
+            child = pexpect.spawn('scp -o StrictHostKeyChecking=no -P {} {} {}'.format(port, connection, temp_dir)) #format new way
             c = child.expect([pexpect.TIMEOUT, "assword:"], timeout=5) # wait 5 sec for password
             if c == 0:
-                print("Error: connection timed out")
+                print("Error: connection timed out please check if the device is up")
                 child.terminate()
             if c == 1:
                 child.sendline(upass)
