@@ -21,7 +21,7 @@ print("Relative path: " ,relative_path("data.csv") ,"\n")
 
 with open(relative_path("data.csv")) as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
-    next(csv_reader) # Skips first line
+    next(csv_reader) # Skips the first line in csv file
     for row in csv_reader:
         company = row[0]
         user = row[1]
