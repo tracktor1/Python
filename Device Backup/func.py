@@ -10,6 +10,7 @@ def relative_path(file_name):
     joint_path = os.path.join(script_path, file_name)
     return joint_path
 
+
 ###Validate directory and create if not exists
 def validate_dir(dir_path):
     directory = os.path.dirname(dir_path)
@@ -45,3 +46,19 @@ def move_file(file_src, dst, serial):
         os.remove(file_src)
         return "File Exist"
 
+###Validate cell is not empty and if it's a number
+###if cell is empty it will return 22 for ssh port
+def validate_cell(cell):
+    if cell in (None, ""):
+        cell = 22
+        return cell
+    else:
+        try:
+            val = int(cell)
+            return cell 
+        except ValueError:
+            return "Invalid port"
+
+
+
+        

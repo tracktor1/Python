@@ -27,15 +27,16 @@ with open(relative_path("data.csv")) as csv_file:
         user = row[1]
         upass = row[2]
         ip = validate_ip(row[3])
-        port = row[4]
+        port = validate_cell(row[4])
         dtype = row[5]
         serial = row[6]
         print(company, user, upass, ip, port, dtype, serial)
         if ip == "Invalid IP":
             print("Invalid IP", row[3])
             print("{} will not be backed up" .format(serial))
-        #if port is None:  """Need to fix port validation"""
-        #   port = 22
+        if port == "Invalid port":
+            print("The port in the csv file is not a number:", row[4])
+            print("Cannot connect to {}" .format(serial))
         else:
             home_dir = str(Path.home()) #find user home dir
             backup_dir = home_dir+"/backup/"+company+"/"+serial+"/" #location of saved backup files
