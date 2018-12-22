@@ -32,7 +32,8 @@ def validate_ip(ipaddr):
         return ipaddr
     except ValueError:
         return "Invalid IP"
-###Rename the backup file to date + device serial
+
+###Rename the backup file to date + device serial and move it to destanation directory
 def move_file(file_src, dst, serial):
     cur_time = strftime("%Y-%m-%d-%H%M")
     file_dst = dst+cur_time+"-"+serial+".conf"
