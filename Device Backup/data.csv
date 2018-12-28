@@ -1,4 +1,0 @@
-company,user,pass,ip,port,device type,serial
-IBM,ibm-user,123456,192.168.100.1,22,Fortigate,FGT55522
-HPE,hpe-user,123456789,192.168.100.2,22,Fortigate,FGT30E987
-Dell,dell user,44444,192.168.2.257,22,Fortigate,FGT100D487
