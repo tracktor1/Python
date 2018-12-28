@@ -59,6 +59,11 @@ def validate_cell(cell):
         except ValueError:
             return "Invalid port"
 
-
+###Validate cell is not empty
+def validate_notempty(cell):
+    if cell in (None, ""):
+        return "Cell empty"
+    else:
+        return cell
 
         
