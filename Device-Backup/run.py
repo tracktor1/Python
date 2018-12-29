@@ -19,18 +19,24 @@ from pathlib import Path
 print("Current path: " ,os.getcwd())    # - TO DELETE
 print("Relative path: " ,relative_path("data.csv") ,"\n")    # - TO DELETE
 
-with open(relative_path("data.csv")) as csv_file:
+with open(relative_path("data.csv")) as csv_file: #
     csv_reader = csv.reader(csv_file, delimiter=',')
-    next(csv_reader) # Skips the first line in csv file
+    next(csv_reader) # Skips the first line in the csv file
     for row in csv_reader:
-        company = row[0]
-        user = row[1]
+        company = validate_notempty(row[0])
+        user = validate_notempty(row[1])
         upass = row[2]
         ip = validate_ip(row[3])
         port = validate_cell(row[4])
         dtype = row[5]
         serial = validate_notempty(row[6])
-        print(company, user, upass, ip, port, dtype, serial)
+        print(company, user, upass, ip, port, dtype, serial)    # - TO DELETE
+        if company == "Cell empty":
+            print("Comapny cell is empty, can't continue skipping to the next line is csv \n")
+            continue
+        if user ==  "Cell empty":
+            print("User cell is empty, can't continue skipping to the next line is csv \n")
+            continue      
         if ip == "Invalid IP":  ###Check IP address is valid
             print("Invalid IP", row[3])
             print("{} will not be backed up \n" .format(serial))
@@ -40,7 +46,7 @@ with open(relative_path("data.csv")) as csv_file:
             print("Cannot connect to {} \n" .format(serial))
             continue
         if serial == "Cell empty":
-            print("Cell is empty, can't continue \n")
+            print("Serial number cell is empty, can't continue skipping to the next line is csv \n")
             continue
         else:
             home_dir = str(Path.home()) #find user home dir
