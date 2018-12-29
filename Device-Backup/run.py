@@ -36,7 +36,10 @@ with open(relative_path("data.csv")) as csv_file: #
             continue
         if user ==  "Cell empty":
             print("User cell is empty, can't continue skipping to the next line is csv \n")
-            continue      
+            continue
+        if upass == "Cell empty":
+            print("Password cell is empty, can't continue skipping to the next line is csv \n")
+            continue
         if ip == "Invalid IP":  ###Check IP address is valid
             print("Invalid IP", row[3])
             print("{} will not be backed up \n" .format(serial))
