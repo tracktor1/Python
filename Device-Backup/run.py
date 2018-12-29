@@ -12,12 +12,12 @@ import subprocess
 import pexpect             # to work must install: sudo apt-get install python3-pexpect
 from func import *
 from pathlib import Path
-#from scp import SCPClient  # to work must install: sudo apt-get install python3-scp
-#import paramiko            # to work must install: sudo apt-get install python3-paramiko
+#from scp import SCPClient  # to work must install: sudo apt-get install python3-scp         # - TO DELETE
+#import paramiko            # to work must install: sudo apt-get install python3-paramiko    # - TO DELETE
 
 
-print("Current path: " ,os.getcwd())
-print("Relative path: " ,relative_path("data.csv") ,"\n")
+print("Current path: " ,os.getcwd())    # - TO DELETE
+print("Relative path: " ,relative_path("data.csv") ,"\n")    # - TO DELETE
 
 with open(relative_path("data.csv")) as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
@@ -40,19 +40,19 @@ with open(relative_path("data.csv")) as csv_file:
             print("Cannot connect to {} \n" .format(serial))
             continue
         if serial == "Cell empty":
-            print("Cell is empty, cannot continue \n")
+            print("Cell is empty, can't continue \n")
             continue
         else:
             home_dir = str(Path.home()) #find user home dir
-            backup_dir = home_dir+"/backup/"+company+"/"+serial+"/" #location of saved backup files
-            temp_dir = home_dir+"/backup/tmp/" #temp working dir
-            valdir = validate_dir(backup_dir) #valdate if dir exist, if not create it
-            valdir = validate_dir(temp_dir) #valdate if dir exist, if not create it
+            backup_dir = home_dir+"/backup/"+company+"/"+serial+"/"     #location of saved backup files
+            temp_dir = home_dir+"/backup/tmp/"       #temp working dir
+            valdir = validate_dir(backup_dir)    #valdate if dir exist, if not create it
+            valdir = validate_dir(temp_dir)      #valdate if dir exist, if not create it
             print("Backup file will be saved in: ", backup_dir)
             connection = user+"@"+ip+":fgt-config"
             print('scp -o StrictHostKeyChecking=no -P %s %s %s' % (port, connection, temp_dir))
-            #child = pexpect.spawn('scp -o StrictHostKeyChecking=no -P %s %s %s' % (port, connection, temp_dir)) #format old way
-            child = pexpect.spawn('scp -o StrictHostKeyChecking=no -P {} {} {}'.format(port, connection, temp_dir)) #format new way
+            #child = pexpect.spawn('scp -o StrictHostKeyChecking=no -P %s %s %s' % (port, connection, temp_dir)) #format, the old way - TO DELETE
+            child = pexpect.spawn('scp -o StrictHostKeyChecking=no -P {} {} {}'.format(port, connection, temp_dir)) #format, the new way
             c = child.expect([pexpect.TIMEOUT, "assword:"], timeout=5) # wait 5 sec for password
             if c == 0:
                 print("Error: connection timed out please check if the device is up")
